@@ -1,4 +1,5 @@
 const user = require("../models/user");
+const map = require("../models/map");
 const hash = require("./hash").hash;
 const chalk = require("chalk");
 
@@ -97,4 +98,41 @@ async function getinfo(userMail, userPassword) {
     return false;
 }
 
-module.exports = { push, check, update, del, getinfo };
+async function addloc(data) {
+    try {
+        console.log(data);
+        const newloc = new map(data);
+        const savloc = await newloc.save();
+        console.log(savloc);
+        return true;
+    } catch (e) {
+        console.log(e);
+        console.log(
+            chalk.bold.red("\n\tError !!! in auth function (addloc)\n"),
+            chalk.bold.red.inverse("\tlocation: ./functions/auth_function.js\n")
+        );
+
+    }
+    return null;
+}
+
+async function getloc(name) {
+
+    try {
+        const val = await map.findOne({
+            name: name,
+        });
+        console.log("user value :", val.images);
+
+        return val
+    } catch (e) {
+        console.log(e);
+        console.log(
+            chalk.bold.red("\n\tError !!! in auth function (getloc)\n"),
+            chalk.bold.red.inverse("\tlocation: ./functions/auth_function.js\n")
+        );
+    }
+    return false;
+}
+
+module.exports = { push, check, update, del, getinfo, addloc, getloc };
