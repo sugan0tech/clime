@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const func = require("../../functions/auth_func");
 const chalk = require("chalk");
-const cookieParser = require("cookie-parser");
-const token = require("../../functions/token");
 require("dotenv").config();
 
 router
@@ -25,14 +23,11 @@ router
         console.log(chalk.green("request api : "), req.body);
         func.getloc(req.body.name).then(
             (value) => {
-                if (value == true) {
+                if (value == false) {
+                    console.log(chalk.bold.red("\n\t map already exists\n"));
+                } else {
                     console.log(chalk.bold.green("\n\t location fetched successfully\n"));
                     res.send("got successfully" + val);
-                } else if (value == false) {
-                    console.log(chalk.bold.red("\n\t user user already exists\n"));
-                    res.send("user already exists ");
-                } else if (value == null) {
-                    res.send("Error occurred in connection, with db");
                 }
             },
             (e) => {
