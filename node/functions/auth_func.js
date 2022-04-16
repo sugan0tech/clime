@@ -1,5 +1,4 @@
 const user = require("../models/user");
-const assignment = require("../models/assignment");
 const hash = require("./hash").hash;
 const chalk = require("chalk");
 
